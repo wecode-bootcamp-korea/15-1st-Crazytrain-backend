@@ -6,7 +6,7 @@ class User(models.Model):
     email         = models.EmailField(max_length=100, unique=True),
     password      = models.CharField(max_length=100),
     nickname      = models.CharField(max_length=15, unique=True),
-    created_at    = models.DateTImeField(auto_now_add=True),
+    created_at    = models.DateTimeField(auto_now_add=True),
     updated_at    = models.DateTimeField(auto_now=True),
     gender        = models.NullBooleanField(null=True),
     birth         = models.DateField(auto_now=False, null=True),

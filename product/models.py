@@ -1,24 +1,24 @@
 from django.db import models
 from menu.models import SubCategory
 
-class Product(models.Model):
-    name              = models.CharField(max_length=30),
-    information       = models.CharField(max_length=200),
-    sub_category      = models.ForeignKey(SubCategory, on_delete=models.CASCADE),
-    information_image = models.URLField(max_length=256, null=True),
-    package           = models.ForeignKey(Package, null=True)
-
-    class Meta:
-        db_table = 'products'
-
-    def __str__(self):
-        return self.name
-
 class Package(models.Model):
     name = models.CharField(max_length=30)
 
     class Meta:
         db_table = 'packages'
+
+    def __str__(self):
+        return self.name
+
+class Product(models.Model):
+    name              = models.CharField(max_length=30),
+    information       = models.CharField(max_length=200),
+    sub_category      = models.ForeignKey(SubCategory, on_delete=models.CASCADE),
+    information_image = models.URLField(max_length=256, null=True),
+    package           = models.ForeignKey(Package, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        db_table = 'products'
 
     def __str__(self):
         return self.name

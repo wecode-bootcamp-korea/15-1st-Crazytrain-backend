@@ -3,6 +3,12 @@ from django.db import models
 from product.models import Product
 from user.models import User
 
+class PostImage(models.Model):
+    url = models.URLField(max_length=256)
+
+    class Meta:
+        db_table = 'post_images'
+
 class Post(models.Model):
     content = models.CharField(max_length=200),
     product = models.ForeignKey(Product, on_delete=models.CASCADE),
@@ -16,12 +22,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.created_at
-
-class PostImage(models.Model):
-    url = models.URLField(max_length=256)
-
-    class Meta:
-        db_table = 'post_images'
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=45,null=True)
