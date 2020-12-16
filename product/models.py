@@ -46,7 +46,7 @@ class Option(models.Model):
     product      = models.ForeignKey(Product, on_delete=models.CASCADE),
     option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE),
     option_color = models.ForeignKey(OptionColor, on_delete=models.CASCADE),
-    price        = models.PositiveIntegerField()
+    price        = models.FloatField()
 
     class Meta:
         db_table = 'options'
