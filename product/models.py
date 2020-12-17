@@ -11,10 +11,10 @@ class Package(models.Model):
         return self.name
 
 class Product(models.Model):
-    name              = models.CharField(max_length=30),
-    information       = models.CharField(max_length=200),
-    sub_category      = models.ForeignKey(SubCategory, on_delete=models.CASCADE),
-    information_image = models.URLField(max_length=256, null=True),
+    name              = models.CharField(max_length=30)
+    information       = models.CharField(max_length=200)
+    sub_category      = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    information_image = models.URLField(max_length=256, null=True)
     package           = models.ForeignKey(Package, on_delete=models.CASCADE, null=True)
 
     class Meta:
@@ -43,9 +43,9 @@ class OptionColor(models.Model):
 
 
 class Option(models.Model):
-    product      = models.ForeignKey(Product, on_delete=models.CASCADE),
-    option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE),
-    option_color = models.ForeignKey(OptionColor, on_delete=models.CASCADE),
+    product      = models.ForeignKey(Product, on_delete=models.CASCADE)
+    option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE)
+    option_color = models.ForeignKey(OptionColor, on_delete=models.CASCADE)
     price        = models.FloatField()
 
     class Meta:
@@ -55,7 +55,7 @@ class Option(models.Model):
         return self.price
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE),
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     url     = models.URLField(max_length=256)
 
     class Meta:
