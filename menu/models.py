@@ -10,8 +10,8 @@ class Category(models.Model):
         return self.name
 
 class SubCategory(models.Model):
-    name = models.CharField(max_length=30),
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'sub_categories'
