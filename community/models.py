@@ -5,7 +5,7 @@ from user.models import User
 
 
 class HouseSize(models.Model):
-    size = models.CharField(max_length=45,null=True)
+    size = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'house_sizes'
@@ -14,7 +14,7 @@ class HouseSize(models.Model):
         return self.size
 
 class HouseStyle(models.Model):
-    style = models.CharField(max_length=45,null=True)
+    style = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'house_styles'
@@ -23,7 +23,7 @@ class HouseStyle(models.Model):
         return self.style
 
 class HousingType(models.Model):
-    type = models.CharField(max_length=45,null=True)
+    type = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'housing_types'
@@ -32,7 +32,7 @@ class HousingType(models.Model):
         return self.type
 
 class Space(models.Model):
-    space = models.CharField(max_length=45,null=True)
+    space = models.CharField(max_length=45)
 
     class Meta:
         db_table = 'spaces'
@@ -41,28 +41,29 @@ class Space(models.Model):
         return self.space
 
 class Post(models.Model):
-    content      = models.CharField(max_length=200)
-    product      = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product      = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
     user         = models.ForeignKey(User, on_delete=models.CASCADE)
-    house_size   = models.ForeignKey(HouseSize, on_delete=models.CASCADE)
-    house_style  = models.ForeignKey(HouseStyle, on_delete=models.CASCADE)
-    housing_type = models.ForeignKey(HousingType, on_delete=models.CASCADE)
-    space        = models.ForeignKey(Space, on_delete=models.CASCADE)
+    house_size   = models.ForeignKey(HouseSize, on_delete=models.CASCADE,null=True)
+    house_style  = models.ForeignKey(HouseStyle, on_delete=models.CASCADE,null=True)
+    housing_type = models.ForeignKey(HousingType, on_delete=models.CASCADE,null=True)
     created_at   = models.DateTimeField(auto_now_add=True)
     updated_at   = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         db_table = 'posts'
 
-class PostImage(models.Model):
-    url  = models.URLField(max_length=256)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+class PostBlock(models.Model):
+    image   = models.URLField(max_length=256)
+    content = models.CharField(max_length=200)
+    space   = models.ForeignKey(Space, on_delete=models.CASCADE, null=True)
+    post    = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'post_images'
+        db_table = 'post_blocks'
 
 class Hashtag(models.Model):
-    name = models.CharField(max_length=45,null=True)
+    hashtag = models.CharField(max_length=45,null=True)
+    postblock = models.ForeignKey(PostBlock, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'hashtags'
@@ -71,8 +72,9 @@ class Hashtag(models.Model):
         return self.name
 
 class PostHashtag(models.Model):
-    post    = models.ForeignKey('Post', on_delete=models.CASCADE)
-    hashtag = models.ForeignKey('Hashtag', on_delete=models.CASCADE)
+    post    = models.ForeignKey(Post, on_delete=models.CASCADE)
+    hashtag = models.ForeignKey(Hashtag, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'post_hashtags'
+
