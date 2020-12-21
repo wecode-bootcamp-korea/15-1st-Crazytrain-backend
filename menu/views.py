@@ -12,9 +12,9 @@ class CategoryView(View):
 
             if categories.exists():   
                 categories = [{ 
-                 'categoryId'              :  category.id,
-                 'category'           :  category.name,
-                 'subCategories' : [
+                 'categoryId'   : category.id,
+                 'category'     : category.name,
+                 'subCategories': [
                      sub_category.name
                 for sub_category in category.subcategory_set.all()]
             } for category in categories]
@@ -24,8 +24,7 @@ class CategoryView(View):
          except ValueError:
              return JsonResponse({'message':'VALUE_ERROR'}, status=400)
         
-         except:
-             return JsonResponse({'message':'ERROR'}, status=400)
+         
 
   
     
