@@ -62,11 +62,7 @@ class PostBlock(models.Model):
         db_table = 'post_blocks'
 
 class Hashtag(models.Model):
-<<<<<<< HEAD
-    hashtag = models.CharField(max_length=45,null=True)
-=======
     hashtag   = models.CharField(max_length=45,null=True)
->>>>>>> main
     postblock = models.ForeignKey(PostBlock, on_delete=models.CASCADE)
 
     class Meta:
