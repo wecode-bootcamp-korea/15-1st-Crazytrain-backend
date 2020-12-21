@@ -2,7 +2,7 @@ from django.db import models
 from product.models import Product
 
 class ReviewScore(models.Model):
-    star = models.DecimalField(max_digits=1, decimal_places=None)
+    star = models.DecimalField(max_digits=1, decimal_places=0)
 
     class Meta:
         db_table = 'review_scores'

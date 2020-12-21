@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'menu',
     'product',
     'user',
-    'shppingcart',
+    'shoppingcart',
     'review'
 
 ]
