@@ -36,6 +36,10 @@ class Product(models.Model):
     package           = models.ForeignKey(Package, on_delete=models.CASCADE, null=True)
     brand             = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
     sale              = models.ForeignKey(Sale, on_delete=models.CASCADE, null=True)
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     class Meta:
         db_table = 'products'
 
@@ -60,7 +64,6 @@ class OptionColor(models.Model):
     def __str__(self):
         return self.name
 
-
 class Option(models.Model):
     product      = models.ForeignKey(Product, on_delete=models.CASCADE)
     option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE)
@@ -80,4 +83,3 @@ class ProductImage(models.Model):
 
     class Meta:
         db_table = 'product_images'
-
