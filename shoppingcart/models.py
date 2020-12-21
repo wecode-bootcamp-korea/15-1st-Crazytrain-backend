@@ -1,6 +1,6 @@
 from django.db import models
 from user.models import User
-from prodect.models import Product, OptionSize, OptionColor
+from product.models import Product, OptionSize, OptionColor
 
 class Cart(models.Model):
     user       = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

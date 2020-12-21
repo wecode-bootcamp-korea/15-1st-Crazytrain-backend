@@ -66,7 +66,7 @@ class ProductDetailView(View):
                 ]
             }for option in product.option_set.all()]
             
-            categories = Category.objects.prefetch_related('subcategory_set').all()
+            #categories = Category.objects.prefetch_related('subcategory_set').all()
 
         # categories = [{ 
         #     'categoryId'   : category.id,
