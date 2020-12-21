@@ -18,5 +18,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-     path('store', include('product.urls')),
+     path('products', include('product.urls')),
 ]

@@ -1,6 +1,7 @@
 from django.db import models
 from menu.models import SubCategory
 
+
 class Package(models.Model):
     name = models.CharField(max_length=30)
 
