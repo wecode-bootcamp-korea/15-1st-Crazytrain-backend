@@ -36,10 +36,7 @@ class Product(models.Model):
     package           = models.ForeignKey(Package, on_delete=models.CASCADE, null=True)
     brand             = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
     sale              = models.ForeignKey(Sale, on_delete=models.CASCADE, null=True)
-<<<<<<< HEAD
-=======
 
->>>>>>> main
     class Meta:
         db_table = 'products'
 
