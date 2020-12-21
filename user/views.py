@@ -1,6 +1,8 @@
 import json, bcrypt, re
+
 from django.views import View
 from django.http import JsonResponse
+
 from .models import User,History
 from product.models import Product
 
