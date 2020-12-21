@@ -60,10 +60,21 @@ class ProductDetailView(View):
             test = [{
                 '제목': product.package.name,
                 '브랜드': product.brand.name,
-                '대표가격': int(str(option.price).split(".")[0])
-                []
+                #'대표가격': int(str(option.price).split(".")[0]),
+                '추가정보':[
+                    product.name
+                ]
             }for option in product.option_set.all()]
             
+            categories = Category.objects.prefetch_related('subcategory_set').all()
+
+        # categories = [{ 
+        #     'categoryId'   : category.id,
+        #     'category'     : category.name,
+        #     'subCategories': [
+        #         sub_category.name
+        #         for sub_category in category.subcategory_set.all()]
+        #     } for category in categories]
             return JsonResponse({'제발..' :test}, status=200)
 
         except Product.DoesNotExist:
