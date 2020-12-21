@@ -10,12 +10,32 @@ class Package(models.Model):
     def __str__(self):
         return self.name
 
+class Brand(models.Model):
+    name = models.CharField(max_length=20)
+
+    class Meta:
+        db_table = 'brands'
+
+    def __str__(self):
+        return self.name
+
+class Sale(models.Model):
+    name = models.CharField(max_length=20)
+
+    class Meta:
+        db_table = 'sales'
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name              = models.CharField(max_length=30)
     information       = models.CharField(max_length=200)
     sub_category      = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     information_image = models.URLField(max_length=256, null=True)
     package           = models.ForeignKey(Package, on_delete=models.CASCADE, null=True)
+    brand             = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True)
+    sale              = models.ForeignKey(Sale, on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_table = 'products'
@@ -41,7 +61,6 @@ class OptionColor(models.Model):
     def __str__(self):
         return self.name
 
-
 class Option(models.Model):
     product      = models.ForeignKey(Product, on_delete=models.CASCADE)
     option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE)
@@ -60,4 +79,3 @@ class ProductImage(models.Model):
 
     class Meta:
         db_table = 'product_images'
-
