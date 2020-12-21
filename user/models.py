@@ -15,12 +15,12 @@ class User(models.Model):
     updated_at    = models.DateTimeField(auto_now=True)
     gender_id     = models.ForeignKey(Gender, on_delete=models.CASCADE, null=True)
     birth_date    = models.DateField(auto_now=False, null=True)
-    profile_image = models.URLField(max_length=256,null=True,default=‘https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?gif=1&amp;w=640&amp;h=640&amp;c=c&amp;webp=1’)
+    profile_image = models.URLField(max_length=256,null=True,default="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?gif=1&amp;w=640&amp;h=640&amp;c=c&amp;webp=1")
     note          = models.CharField(max_length=50, null=True)
 
     class Meta:
         db_table = 'users'
-    
+
     def __str__(self):
         return self.email
 
