@@ -17,5 +17,5 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-   path('store', include('menu.urls')),
+   path('house', include('menu.urls')),
 ]
