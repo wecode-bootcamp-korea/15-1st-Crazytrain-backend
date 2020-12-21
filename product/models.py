@@ -41,7 +41,7 @@ class Product(models.Model):
         db_table = 'products'
 
     def __str__(self):
-        return self.name
+        return sel
 
 class OptionSize(models.Model):
     name = models.CharField(max_length=20)

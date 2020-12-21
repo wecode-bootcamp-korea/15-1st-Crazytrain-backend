@@ -61,20 +61,21 @@ class PostBlock(models.Model):
     class Meta:
         db_table = 'post_blocks'
 
-class Hashtag(models.Model):
-    hashtag   = models.CharField(max_length=45,null=True)
-    postblock = models.ForeignKey(PostBlock, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'hashtags'
-
-    def __str__(self):
-        return self.hashtag
-
-class PostHashtag(models.Model):
-    post    = models.ForeignKey(Post, on_delete=models.CASCADE)
-    hashtag = models.ForeignKey(Hashtag, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'post_hashtags'
+#
+# class Hashtag(models.Model):
+#     hashtag   = models.CharField(max_length=45,null=True)
+#     postblock = models.ForeignKey(PostBlock, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         db_table = 'hashtags'
+#
+#     def __str__(self):
+#         return self.hashtag
+#
+# class PostHashtag(models.Model):
+#     post    = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     hashtag = models.ForeignKey(Hashtag, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         db_table = 'post_hashtags'
 
