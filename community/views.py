@@ -1,14 +1,13 @@
 from django.shortcuts import render
-
 import json
 
 from django.http import JsonResponse
 from django.views import View
 
-from product.models import Product
 from .models import HouseSize, HouseStyle, HousingType, Space,  Post, PostBlock
 #from user.utils import login_decorator
 from product.models import *
+from user.models import *
 
 class Posting(View):
 
@@ -17,12 +16,12 @@ class Posting(View):
         data = json.loads(request.body)
 
         # 토큰 전까지 사용할  유저 아이디
-        user_id = 2
+        user_id      = 2
 
         house_size   = data.get('house_size')
         house_style  = data.get('house_style')
         housing_type = data.get('housing_type')
-        block = data['block']
+        block        = data['block']
 
         try:
             Post.objects.create(
@@ -41,6 +40,7 @@ class Posting(View):
                     space_id = i["space"],
                     post_id=post.id,
                 )
+            return JsonResponse({'message': "SUCCESS"}, status=200)
 
         except KeyError:
             return JsonResponse({"message"}, status=401)
@@ -49,12 +49,47 @@ class Posting(View):
             return JsonResponse({"message"}, status=402)
 
 
-#class PostDetailView(View):
-    # 제품 추가 post
-#    def post(self):
+class PostDetail(View):
+
+    def get(self, request, post_id):
+
+        try:
+            post  = Post.objects.get(id=post_id)
+            user  = User.objects.get(id=post.user_id)
 
 
-    # 수정하기
-#    def put
+            result = {
+                        'post_id'         : post.id,
+                        'created_at'      : post.created_at,
+                        'updated_at'      : post.updated_at,
 
-    # 삭제하기
+                        'user' : {
+                            'user_id'       : user.id,
+                            'nickname'      : user.nickname,
+                            'profile_image' : user.profile_image
+                        },
+
+                        'categories': {
+                        'house_size'      : HouseSize.objects.get(id=post.house_size_id).size,
+                        'house_style'     : HouseStyle.objects.get(id=post.house_style_id).style,
+                        'housing_type'    : HousingType.objects.get(id=post.housing_type_id).type
+                        },
+
+                        'blocks' : [
+                            {
+                                'block_id' : block.id,
+                                'post_id'  : block.post_id,
+                                'image'    : block.image,
+                                'content'  : block.content,
+                                'space'    : Space.objects.get(id=block.space_id).space
+                            }
+                            for block in PostBlock.objects.filter(post_id= post_id)
+                        ]
+
+            }
+
+            return JsonResponse({'results' : result}, status = 200)
+
+
+        except KeyError:
+            return JsonResponse({'message': "error"}, status=401)

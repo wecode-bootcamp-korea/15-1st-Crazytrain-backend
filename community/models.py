@@ -41,7 +41,6 @@ class Space(models.Model):
         return self.space
 
 class Post(models.Model):
-    product      = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
     user         = models.ForeignKey(User, on_delete=models.CASCADE)
     house_size   = models.ForeignKey(HouseSize, on_delete=models.CASCADE,null=True)
     house_style  = models.ForeignKey(HouseStyle, on_delete=models.CASCADE,null=True)
@@ -58,8 +57,11 @@ class PostBlock(models.Model):
     space   = models.ForeignKey(Space, on_delete=models.CASCADE, null=True)
     post    = models.ForeignKey(Post, on_delete=models.CASCADE)
 
+
     class Meta:
         db_table = 'post_blocks'
+
+# product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
 #
 # class Hashtag(models.Model):
