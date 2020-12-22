@@ -15,16 +15,12 @@ class CartView(View):
     def post(self, request):
         data = json.loads(request.body)
         user = request.user
-        print(data)
-        print(user)
-        try:       
-            print(1)     
+        try:   
             if Cart.objects.filter(
                 user=user.id, 
                 product=data['product_id'], 
                 size=data['size_id'],
                 color=data['color_id']):
-                
                 item = Cart.objects.get(
                     user=user.id, 
                     product=data['product_id'], 
@@ -43,12 +39,10 @@ class CartView(View):
                     color    = OptionColor(id = data['color_id']),
                     price    = Option(id = data['price_id'])
                 )
-                test =  Option.objects.get(price=data['price_id'])
-                a= test
-            return JsonResponse({"message":a}, status=201)
+            return JsonResponse({"message":"SUCCESS"}, status=201)
         
         except KeyError as ex:
             print(data)
             return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
 
-    
+
