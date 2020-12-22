@@ -20,7 +20,7 @@ class CartView(View):
                 user=user.id, 
                 product=data['product_id'], 
                 size=data['size_id'],
-                color=data['color_id']):
+                color=data['color_id']).exists():
                 item = Cart.objects.get(
                     user=user.id, 
                     product=data['product_id'], 
@@ -29,16 +29,15 @@ class CartView(View):
                     price=data['price_id'])
                 item.quantity += int(data['quantity'])
                 item.save()
-            
-            else:
-                Cart.objects.create(
-                    user     = User(id = user.id),
-                    product  = Product(id = data['product_id']),
-                    quantity = int(data['quantity']),
-                    size     = OptionSize(id = data['size_id']),
-                    color    = OptionColor(id = data['color_id']),
-                    price    = Option(id = data['price_id'])
-                )
+                    
+            Cart.objects.create(
+                user     = User(id = user.id),
+                product  = Product(id = data['product_id']),
+                quantity = int(data['quantity']),
+                size     = OptionSize(id = data['size_id']),
+                color    = OptionColor(id = data['color_id']),
+                price    = Option(id = data['price_id'])
+            )
             return JsonResponse({"message":"SUCCESS"}, status=201)
         
         except KeyError as ex:

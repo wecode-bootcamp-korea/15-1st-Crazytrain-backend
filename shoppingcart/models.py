@@ -9,8 +9,7 @@ class Cart(models.Model):
     size     = models.ForeignKey(OptionSize, on_delete=models.CASCADE, null=True)
     color    = models.ForeignKey(OptionColor, on_delete=models.CASCADE, null=True)
     price    = models.ForeignKey(Option, on_delete=models.CASCADE)
-    checked  = models.BooleanField(default=True)
-    
+
     class Meta:
         db_table = 'carts'
 
