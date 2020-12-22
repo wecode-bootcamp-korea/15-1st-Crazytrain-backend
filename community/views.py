@@ -44,7 +44,7 @@ class Posting(View):
 
         except KeyError:
             return JsonResponse({"message"}, status=401)
-        #
+
         except TypeError:
             return JsonResponse({"message"}, status=402)
 
@@ -57,6 +57,20 @@ class PostDetail(View):
             post  = Post.objects.get(id=post_id)
             user  = User.objects.get(id=post.user_id)
 
+            if post.house_size_id:
+                house_size = HouseSize.objects.get(id=post.house_size_id).size
+            else:
+                house_size = ' '
+
+            if post.house_style_id:
+                house_style = HouseStyle.objects.get(id=post.house_style_id).style
+            else:
+                house_style = ' '
+
+            if post.housing_type_id:
+                housing_type = HousingType.objects.get(id=post.housing_type_id).type
+            else:
+                housing_type = ' '
 
             result = {
                         'post_id'         : post.id,
@@ -70,9 +84,10 @@ class PostDetail(View):
                         },
 
                         'categories': {
-                        'house_size'      : HouseSize.objects.get(id=post.house_size_id).size,
-                        'house_style'     : HouseStyle.objects.get(id=post.house_style_id).style,
-                        'housing_type'    : HousingType.objects.get(id=post.housing_type_id).type
+
+                        'house_size'      : house_size,
+                        'house_style'     : house_style,
+                        'housing_type'    : housing_type
                         },
 
                         'blocks' : [
@@ -81,15 +96,11 @@ class PostDetail(View):
                                 'post_id'  : block.post_id,
                                 'image'    : block.image,
                                 'content'  : block.content,
-                                'space'    : Space.objects.get(id=block.space_id).space
                             }
                             for block in PostBlock.objects.filter(post_id= post_id)
                         ]
-
             }
-
             return JsonResponse({'results' : result}, status = 200)
-
 
         except KeyError:
             return JsonResponse({'message': "error"}, status=401)
