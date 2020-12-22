@@ -7,7 +7,7 @@ def login_decorator(func):
     def wrapper(self, request, *args, **kwargs):
         if "Authorization" is None:
             return JsonResponse({"MESSAGE":"INVALID_LOGIN"}, status=401)
-        encode_token = request.header["Authorization"]
+        encode_token = request.headers["Authorization"]
         try:
             data         = jwt.decode(encode_token, SECRET, ALGORITHM)
             user         = User.objects.get(id = data["id"])
