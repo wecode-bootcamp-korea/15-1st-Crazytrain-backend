@@ -44,4 +44,23 @@ class CartView(View):
             print(data)
             return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
 
-
+    #장바구니 조회
+    @login_decorator
+    def get(self, request):
+        user = request.user
+        try:
+            cart_list = [{
+                'id'          : item.id,
+                'user_id'     : item.user_id,
+                'product_id'  : item.product_id,
+                'product_name': item.product.name,
+                'quantity'    : item.quantity,
+                'size'        : item.size.name,
+                'color'       : item.color.name,
+                'price'       : item.price.price,
+                'image_url'   : item.product.information_image
+            } for item in Cart.objects.filter(user=user.id)]
+            return JsonResponse({'message':'SUCCESS', 'CART_LIST': cart_list}, status=200)
+        
+        except KeyError:
+            return JsonResponse({'message':'KEY_ERROR'}, status=400)
