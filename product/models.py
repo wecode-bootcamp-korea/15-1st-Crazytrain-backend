@@ -44,7 +44,7 @@ class Product(models.Model):
         return self.name
 
 class OptionSize(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20,null=True)
 
     class Meta:
         db_table = 'option_sizes'
