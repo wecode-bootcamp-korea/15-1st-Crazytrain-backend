@@ -59,4 +59,21 @@ class CartView(View):
         
         except KeyError as ex:
             return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
+
+    #장바구니 갯수변경
+    @login_decorator
+    def patch(self, request):
+        try: 
+            data = json.loads(request.body)
+            item = Cart.objects.get(id = data['cart_id'])
+            quantity_change = int(data['counts'])
+            item.quantity = quantity_change
+            item.save()
+            return JsonResponse({
+                "message"  : "SUCCESS", 
+                "QUANTITY" : item.quantity, 
+                "PRICE"    : item.price.price * int(item.quantity)},status=201)
+
+        except KeyError as ex:
+            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status=400)
     
