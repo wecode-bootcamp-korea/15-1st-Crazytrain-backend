@@ -45,7 +45,7 @@ class Product(models.Model):
         return self.name
 
 class OptionSize(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, null=True)
 
     class Meta:
         db_table = 'option_sizes'
@@ -64,7 +64,7 @@ class OptionColor(models.Model):
 
 class Option(models.Model):
     product      = models.ForeignKey(Product, on_delete=models.CASCADE)
-    option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE)
+    option_size  = models.ForeignKey(OptionSize, on_delete=models.CASCADE, null=True)
     option_color = models.ForeignKey(OptionColor, on_delete=models.CASCADE)
     price        = models.FloatField()
 
