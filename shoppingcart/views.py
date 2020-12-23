@@ -69,11 +69,11 @@ class CartDetailView(View):
             item = Cart.objects.get(id = cart_id)
             item.quantity = int(data['counts'])
             item.save()
+            
             return JsonResponse({
                 "message"  : "SUCCESS", 
                 "QUANTITY" : item.quantity, 
-                "PRICE"    : item.price.price * int(item.quantity)},status=201)
+                "PRICE"    : item.price.price * int(item.quantity)}, status=201)
 
         except KeyError as ex:
             return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status=400)
-    
