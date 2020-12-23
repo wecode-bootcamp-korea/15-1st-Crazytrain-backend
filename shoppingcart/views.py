@@ -19,12 +19,10 @@ class CartView(View):
             if Cart.objects.filter(
                 user=user.id, 
                 product=data['product_id'], 
-                size=data['size_id'],
                 color=data['color_id']).exists():
                 item = Cart.objects.get(
                     user=user.id, 
                     product=data['product_id'], 
-                    size=data['size_id'],
                     color=data['color_id'],
                     price=data['price_id'])
                 item.quantity += int(data['quantity'])
@@ -34,7 +32,6 @@ class CartView(View):
                 user     = User(id = user.id),
                 product  = Product(id = data['product_id']),
                 quantity = int(data['quantity']),
-                size     = OptionSize(id = data['size_id']),
                 color    = OptionColor(id = data['color_id']),
                 price    = Option(id = data['price_id'])
             )
@@ -54,7 +51,6 @@ class CartView(View):
                 'product_id'  : item.product_id,
                 'product_name': item.product.name,
                 'quantity'    : item.quantity,
-                'size'        : item.size.name,
                 'color'       : item.color.name,
                 'price'       : item.price.price,
                 'image_url'   : item.product.information_image
@@ -63,3 +59,20 @@ class CartView(View):
         
         except KeyError as ex:
             return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
+
+    #장바구니 갯수변경
+    @login_decorator
+    def patch(self, request):
+        try: 
+            data = json.loads(request.body)
+            item = Cart.objects.get(id = data['cart_id'])
+            item.quantity = int(data['counts'])
+            item.save()
+            return JsonResponse({
+                "message"  : "SUCCESS", 
+                "QUANTITY" : item.quantity, 
+                "PRICE"    : item.price.price * int(item.quantity)},status=201)
+
+        except KeyError as ex:
+            return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status=400)
+    
