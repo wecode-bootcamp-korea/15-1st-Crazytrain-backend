@@ -66,8 +66,7 @@ class CartView(View):
         try: 
             data = json.loads(request.body)
             item = Cart.objects.get(id = data['cart_id'])
-            quantity_change = int(data['counts'])
-            item.quantity = quantity_change
+            item.quantity = int(data['counts'])
             item.save()
             return JsonResponse({
                 "message"  : "SUCCESS", 
