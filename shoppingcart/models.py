@@ -7,7 +7,7 @@ class Cart(models.Model):
     product  = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     quantity = models.IntegerField(default=1)
     color    = models.ForeignKey(OptionColor, on_delete=models.CASCADE, null=True)
-    price    = models.ForeignKey(Option, on_delete=models.CASCADE)
+    option    = models.ForeignKey(Option, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'carts'
