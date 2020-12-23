@@ -115,7 +115,6 @@ class PostDetail(View):
                             }
                             for block in PostBlock.objects.filter(post_id= post_id)
                         ],
-
                     }
             return JsonResponse({'community_detail' : result}, status=200)
 
@@ -134,7 +133,10 @@ class PostList(View):
                  'postblock_set'
             ).order_by('-id')
 
-            if order:
+            if order == "1":
+                posts = posts.order_by('-id')
+
+            if order == "2":
                 posts = posts.order_by('id')
 
             if residence:
