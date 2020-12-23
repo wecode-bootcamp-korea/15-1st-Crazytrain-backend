@@ -18,7 +18,7 @@ class ProductListView(View):
             'option_set').select_related(
             'sub_category').filter(
             sub_category_id=sub_category_id)
-#[image.url for image in product.productimage_set.all()],
+            )],
         context = [{
             'id'           : product.package.id,
             'alt'          : product.package.name,
@@ -31,8 +31,9 @@ class ProductListView(View):
                             } for option in product.option_set.all()]
         }for product in products]
         return JsonResponse({"productlist": context}, status=200)
+
 class ProductDetailView(View):
-     def get(self, request, package_id):
+    def get(self, request, package_id):
         try:
             Image.objects.filter(product=product.id)
             products = Product.objects.prefetch_related(
@@ -49,7 +50,7 @@ class ProductDetailView(View):
                 'alt'          : product.package.name,
                 'sub_category' : product.sub_category.name,
                 'options'      : [{'color':option.option_color.name,'price':int(option.price)
-                                 } for option in product.option_set.all()],
+                                } for option in product.option_set.all()],
                 'ispackage'    : "true",
                 'itemBadge'    : product.sale.name,
                 'infoImage'    : product.information_image,
