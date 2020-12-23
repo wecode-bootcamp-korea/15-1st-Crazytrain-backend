@@ -1,4 +1,4 @@
-import json, bcrypt, re
+import json, bcrypt, re, jwt
 
 from django.views import View
 from django.http import JsonResponse
@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from .models import User
 from product.models import Product
 from .utils import login_decorator
-
+from my_settings import SECRET, ALGORITHM
 
 class Signin(View):
     def post(self, request):
