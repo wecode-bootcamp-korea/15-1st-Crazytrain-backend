@@ -40,7 +40,7 @@ class Posting(View):
             ]
             PostBlock.objects.bulk_create(post_block)
 
-            return JsonResponse({'message': "SUCCESS"}, status=200)
+            return JsonResponse({'message': "SUCCESS"}, status=201)
 
         except KeyError:
             return JsonResponse({"message"}, status=401)
@@ -115,9 +115,10 @@ class PostDetail(View):
                                 'content'  : block.content,
                             }
                             for block in PostBlock.objects.filter(post_id= post_id)
-                        ]
+                        ],
+
                     }
-            return JsonResponse({'community_detail' : result}, status = 200)
+            return JsonResponse({'community_detail' : result}, status=200)
 
         except TypeError:
             return JsonResponse({'message': "TYPE_ERROR"}, status=402)
@@ -132,7 +133,7 @@ class PostList(View):
 
             posts = Post.objects.prefetch_related(
                  'postblock_set'
-            ).all().order_by('-id')
+            ).order_by('-id')
 
             if order:
                 posts = posts.order_by('id')
