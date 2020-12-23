@@ -27,7 +27,7 @@ class CartView(View):
                     price=data['price_id'])
                 item.quantity += int(data['quantity'])
                 item.save()
-                    
+                return JsonResponse({"message":"SUCCESS"}, status=200)      
             Cart.objects.create(
                 user     = User(id = user.id),
                 product  = Product(id = data['product_id']),
@@ -61,11 +61,12 @@ class CartView(View):
             return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
 
     #장바구니 갯수변경
+class CartDetailView(View):
     @login_decorator
-    def patch(self, request):
+    def patch(self, request, cart_id):
         try: 
             data = json.loads(request.body)
-            item = Cart.objects.get(id = data['cart_id'])
+            item = Cart.objects.get(id = cart_id)
             item.quantity = int(data['counts'])
             item.save()
             return JsonResponse({
