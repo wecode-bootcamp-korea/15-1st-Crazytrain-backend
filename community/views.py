@@ -1,8 +1,8 @@
-from django.shortcuts import render
 import json
 
 from django.http import JsonResponse
 from django.views import View
+
 
 from .models import HouseSize, HouseStyle, HousingType, Space,  Post, PostBlock
 #from user.utils import login_decorator
@@ -15,7 +15,6 @@ class Posting(View):
     def post(self, request):
         data = json.loads(request.body)
 
-        # 토큰 전까지 사용할  유저 아이디
         user_id      = 2
 
         house_size   = data.get('house_size')
@@ -24,22 +23,23 @@ class Posting(View):
         block        = data['block']
 
         try:
-            Post.objects.create(
+            post = Post.objects.create(
                 user_id=user_id,
                 house_size_id=house_size,
                 house_style_id=house_style,
                 housing_type_id=housing_type
             )
 
-            post = Post.objects.all().last()
-
-            for i in block:
-                PostBlock.objects.create(
-                    image=i["image"],
-                    content=i["content"],
-                    space_id = i["space"],
+            post_block = [
+                PostBlock(
+                    image=item["image"],
+                    content=item["content"],
+                    space_id=item["space"],
                     post_id=post.id,
-                )
+                ) for item in block
+            ]
+            PostBlock.objects.bulk_create(post_block)
+
             return JsonResponse({'message': "SUCCESS"}, status=200)
 
         except KeyError:
@@ -48,47 +48,64 @@ class Posting(View):
         except TypeError:
             return JsonResponse({"message"}, status=402)
 
-
 class PostDetail(View):
 
     def get(self, request, post_id):
 
         try:
-            post  = Post.objects.get(id=post_id)
-            user  = User.objects.get(id=post.user_id)
+            post = Post.objects.get(id=post_id)
 
             if post.house_size_id:
-                house_size = HouseSize.objects.get(id=post.house_size_id).size
+                house_size = post.house_size.size
             else:
-                house_size = ' '
+                house_size = None
 
             if post.house_style_id:
-                house_style = HouseStyle.objects.get(id=post.house_style_id).style
+                house_style = post.house_style.style
             else:
-                house_style = ' '
+                house_style = None
 
             if post.housing_type_id:
-                housing_type = HousingType.objects.get(id=post.housing_type_id).type
+                housing_type = post.housing_type.type
             else:
-                housing_type = ' '
+                housing_type = None
 
             result = {
-                        'post_id'         : post.id,
-                        'created_at'      : post.created_at,
-                        'updated_at'      : post.updated_at,
+                        'post' : [
+                            {
+                                'post_id': post.id
+                            },
+                            {
+                                'created_at': post.created_at
+                            },
+                            {
+                                'updated_at': post.updated_at
+                            }
+                        ],
 
-                        'user' : {
-                            'user_id'       : user.id,
-                            'nickname'      : user.nickname,
-                            'profile_image' : user.profile_image
-                        },
+                        'user' : [
+                            {
+                                'user_id'       : post.user.id
+                            },
+                            {
+                                'nickname'      : post.user.nickname
+                            },
+                            {
+                                'profile_image' : post.user.profile_image
+                            }
+                        ],
 
-                        'categories': {
-
-                        'house_size'      : house_size,
-                        'house_style'     : house_style,
-                        'housing_type'    : housing_type
-                        },
+                        'categories' : [
+                            {
+                                'house_size'      : house_size
+                            },
+                            {
+                                'house_style'     : house_style
+                            },
+                            {
+                                'housing_type'    : housing_type
+                            }
+                        ],
 
                         'blocks' : [
                             {
@@ -99,8 +116,57 @@ class PostDetail(View):
                             }
                             for block in PostBlock.objects.filter(post_id= post_id)
                         ]
-            }
-            return JsonResponse({'results' : result}, status = 200)
+                    }
+            return JsonResponse({'community_detail' : result}, status = 200)
 
-        except KeyError:
-            return JsonResponse({'message': "error"}, status=401)
+        except TypeError:
+            return JsonResponse({'message': "TYPE_ERROR"}, status=402)
+
+class PostList(View):
+    def get(self, request):
+        try:
+            order     = request.GET.get('order','')
+            residence = request.GET.get('residence','')
+            size      = request.GET.get('size','')
+            style     = request.GET.get('style','')
+
+            posts = Post.objects.prefetch_related(
+                 'postblock_set'
+            ).all().order_by('-id')
+
+            if order:
+                posts = posts.order_by('id')
+
+            if residence:
+                posts = posts.filter(housing_type_id=residence)
+
+            if size:
+                posts = posts.filter(house_size_id=size)
+
+            if style:
+                posts = posts.filter(house_style_id=style)
+
+            results = [
+                    {
+                        'post_id'         : post.id,
+                        'post_user_id'    : post.user.id,
+                        'writer_nickname' : post.user.nickname,
+                        'created_at'      : post.created_at,
+                        'house_size'      : post.house_size_id,
+                        'house_style'     : post.house_style_id,
+                        'residence'       : post.housing_type_id,
+
+                        'block'           : [
+                        {
+                            'block_image'   : block.image,
+                            'block_content' : block.content
+                        }
+                        for block in post.postblock_set.all()
+                    ],
+                }
+                for post in posts
+            ]
+            return JsonResponse({'result': results}, status=200)
+
+        except TypeError:
+            return JsonResponse({'message': 'TYPE_ERROR'}, status=402)
