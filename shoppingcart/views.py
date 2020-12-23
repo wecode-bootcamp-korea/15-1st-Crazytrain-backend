@@ -41,7 +41,6 @@ class CartView(View):
             return JsonResponse({"message":"SUCCESS"}, status=201)
         
         except KeyError as ex:
-            print(data)
             return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
 
     #장바구니 조회
@@ -60,7 +59,7 @@ class CartView(View):
                 'price'       : item.price.price,
                 'image_url'   : item.product.information_image
             } for item in Cart.objects.filter(user=user.id)]
-            return JsonResponse({'message':'SUCCESS', 'CART_LIST': cart_list}, status=200)
+            return JsonResponse({"message":"SUCCESS", "CART_LIST": cart_list}, status=200)
         
-        except KeyError:
-            return JsonResponse({'message':'KEY_ERROR'}, status=400)
+        except KeyError as ex:
+            return JsonResponse({"message":"KEY_ERROR_" + str(ex.args[0])}, status=400)
