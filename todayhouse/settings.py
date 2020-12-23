@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'community',
     'menu',
     'product',
-    'user'
+    'user',
+    'shoppingcart',
+    'review'
 
 ]
 

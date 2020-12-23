@@ -5,18 +5,18 @@ from django.views import View
 
 
 from .models import HouseSize, HouseStyle, HousingType, Space,  Post, PostBlock
-#from user.utils import login_decorator
+from user.utils import login_decorator
 from product.models import *
 from user.models import *
 
 class Posting(View):
 
-    #@login_decorator
+    @login_decorator
     def post(self, request):
         data = json.loads(request.body)
 
-        user_id      = 2
-
+        user         = request.user
+        user_id      = user.id
         house_size   = data.get('house_size')
         house_style  = data.get('house_style')
         housing_type = data.get('housing_type')
