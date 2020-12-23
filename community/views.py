@@ -4,9 +4,8 @@ from django.http import JsonResponse
 from django.views import View
 
 
-from .models import HouseSize, HouseStyle, HousingType, Space,  Post, PostBlock
+from .models import HouseSize, HouseStyle, HousingType, Space, Post, PostBlock
 from user.utils import login_decorator
-from product.models import *
 from user.models import *
 
 class Posting(View):
