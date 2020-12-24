@@ -153,6 +153,7 @@ class PostList(View):
                         'post_id'         : post.id,
                         'post_user_id'    : post.user.id,
                         'writer_nickname' : post.user.nickname,
+                        'profile_image'   : post.user.profile_image,
                         'created_at'      : post.created_at,
                         'house_size'      : post.house_size_id,
                         'house_style'     : post.house_style_id,
