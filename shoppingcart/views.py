@@ -52,7 +52,7 @@ class CartView(View):
                 'product_name': item.product.name,
                 'quantity'    : item.quantity,
                 'color'       : item.color.name,
-                'price'       : item.price.price,
+                'option'       : item.option.price,
                 'image_url'   : item.product.information_image
             } for item in Cart.objects.filter(user=user.id)]
             return JsonResponse({"message":"SUCCESS", "CART_LIST": cart_list}, status=200)
@@ -69,11 +69,11 @@ class CartDetailView(View):
             item = Cart.objects.get(id = cart_id)
             item.quantity = int(data['counts'])
             item.save()
-            
+            print()
             return JsonResponse({
                 "message"  : "SUCCESS", 
                 "QUANTITY" : item.quantity, 
-                "PRICE"    : item.price.price * int(item.quantity)}, status=201)
+                "PRICE"    : item.option.price * int(item.quantity)}, status=201)
 
         except KeyError as ex:
             return JsonResponse({'message' : 'KEY_ERROR_' + ex.args[0]}, status=400)
