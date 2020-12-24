@@ -1,6 +1,7 @@
 from django.db import models
 from menu.models import SubCategory
 
+
 class Package(models.Model):
     name = models.CharField(max_length=30)
 
@@ -44,7 +45,7 @@ class Product(models.Model):
         return self.name
 
 class OptionSize(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20,null=True)
 
     class Meta:
         db_table = 'option_sizes'
@@ -76,6 +77,7 @@ class Option(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     url     = models.URLField(max_length=256)
+    
 
     class Meta:
         db_table = 'product_images'
