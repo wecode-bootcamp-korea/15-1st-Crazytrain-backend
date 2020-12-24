@@ -18,7 +18,6 @@ class ProductListView(View):
             'option_set').select_related(
             'sub_category').filter(
             sub_category_id=sub_category_id)
-            )],
         context = [{
             'id'           : product.package.id,
             'alt'          : product.package.name,
@@ -35,7 +34,6 @@ class ProductListView(View):
 class ProductDetailView(View):
     def get(self, request, package_id):
         try:
-            Image.objects.filter(product=product.id)
             products = Product.objects.prefetch_related(
             'productimage_set',
             'option_set').select_related(
@@ -49,7 +47,7 @@ class ProductDetailView(View):
                 'articleName'  : product.package.name,
                 'alt'          : product.package.name,
                 'sub_category' : product.sub_category.name,
-                'options'      : [{'color':option.option_color.name,'price':int(option.price)
+                'options'      : [{'color_id':option.option_color.id,'option_id':option.id,'color':option.option_color.name,'price':int(option.price)
                                 } for option in product.option_set.all()],
                 'ispackage'    : "true",
                 'itemBadge'    : product.sale.name,
