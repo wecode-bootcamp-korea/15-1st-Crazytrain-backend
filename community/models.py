@@ -1,6 +1,5 @@
 from django.db import models
 
-from product.models import Product
 from user.models import User
 
 class HouseSize(models.Model):
@@ -36,7 +35,6 @@ class Space(models.Model):
         return self.space
 
 class Post(models.Model):
-    product      = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
     user         = models.ForeignKey(User, on_delete=models.CASCADE)
     house_size   = models.ForeignKey(HouseSize, on_delete=models.CASCADE,null=True)
     house_style  = models.ForeignKey(HouseStyle, on_delete=models.CASCADE,null=True)
