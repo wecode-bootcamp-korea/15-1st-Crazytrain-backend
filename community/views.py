@@ -70,41 +70,26 @@ class PostDetail(View):
                 housing_type = None
 
             result = {
-                        'post' : [
+                        'post' :
                             {
-                                'post_id': post.id
-                            },
-                            {
-                                'created_at': post.created_at
-                            },
-                            {
+                                'post_id': post.id,
+                                'created_at': post.created_at,
                                 'updated_at': post.updated_at
-                            }
-                        ],
+                            },
 
-                        'user' : [
+                        'user' :
                             {
-                                'user_id'       : post.user.id
-                            },
-                            {
-                                'nickname'      : post.user.nickname
-                            },
-                            {
+                                'user_id'       : post.user.id,
+                                'nickname'      : post.user.nickname,
                                 'profile_image' : post.user.profile_image
-                            }
-                        ],
+                            },
 
-                        'categories' : [
-                            {
-                                'house_size'      : house_size
-                            },
-                            {
-                                'house_style'     : house_style
-                            },
-                            {
-                                'housing_type'    : housing_type
-                            }
-                        ],
+                        'categories' :
+                            [
+                                house_size,
+                                house_style,
+                                housing_type
+                            ],
 
                         'blocks' : [
                             {
