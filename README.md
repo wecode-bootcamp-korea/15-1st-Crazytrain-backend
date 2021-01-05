@@ -32,7 +32,7 @@
 
 ### **BackEnd**
 
-- Python / Django / CORS Header / Bcrypt / PyJWT / MySQL / AqeuryTool (데이터베이스 모델링)
+- Python / Django / CORS Header / Bcrypt / PyJWT / MySQL / AqueryTool (데이터베이스 모델링)
 
 ### **협업 도구**
 
